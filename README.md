@@ -32,6 +32,16 @@ flowchart LR
 - **切り分けの手順**: API Gateway を繋ぐ前に `aws lambda invoke` で単体テスト。E2E で失敗したときに障害層を絞れるようにする
 - **DynamoDB は float 不可**: 金額は `Decimal` で扱う
 
+## 理解チェック問題（学習ログ）
+
+このハンズオンは Claude Code と「各スクリプトを読み、質問に答えてから実行する」方式で進めた。使った問いを残す:
+
+- **01**: このスクリプトは何を作り、キーに何を指定している？ なぜキーは `order_id` 1本でいい？
+- **02**: `create-role` に渡す JSON と `put-role-policy` に渡す JSON はそれぞれ何を宣言している？（信頼ポリシー vs 権限ポリシー）`Resource` を `*` でなくテーブル ARN に限定するのはなぜ？
+- **03**: handler は event のどのキーで処理を分岐している？ なぜ API Gateway を作る前に `aws lambda invoke` で単体テストする？ zip に入れたのは handler.py 1枚なのに `import boto3` が動くのはなぜ？
+- **04**: 最後の `aws lambda add-permission` は何のため？（アイデンティティベース＝ロール vs リソースベースポリシーの区別）
+- **05**: 正常系だけでなく 404 / 400 をテストする理由は？ 最後に curl でなく `aws dynamodb get-item` で直接確認するのは何を証明するため？
+
 ## コスト
 
 Lambda・API Gateway・DynamoDB（オンデマンド）ともこの規模では無料枠内。使い終わったら `99_cleanup.sh` で全削除。
